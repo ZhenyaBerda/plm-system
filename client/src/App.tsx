@@ -1,11 +1,12 @@
 import React from 'react';
-import Page from "./pages/Page";
+import Router from './infrastructure/routing/Router';
+import Index from "./pages";
 
 function App() {
   return (
-    <div className="App">
-      <Page/>
-    </div>
+  <Router>
+      <Index/>
+  </Router>
   );
 }
 
