@@ -1,10 +1,28 @@
+.login-page {
+    display: flex;
+}
+
 .login {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-right: 20px;
+    flex-basis: 50vw;
 }
 
 .form {
     width: 600px;
 }
+
+.title {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.login-info {
+    background-color: #001529;
+    flex-basis: 50vw;
+
+}
+

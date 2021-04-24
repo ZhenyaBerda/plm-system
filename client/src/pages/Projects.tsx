@@ -1,9 +1,10 @@
 import React from 'react';
-import {Breadcrumb, Table} from "antd";
+import {Breadcrumb, Space, Table} from "antd";
 import{ Link } from "react-router-dom";
 
 import './Page.css';
 import Page from './Page';
+import { Pages } from '../@types';
 
 const Projects = () => {
 
@@ -37,9 +38,14 @@ const Projects = () => {
                             key: 'name'
                         },
                         {
-                            title: 'Действия',
-                            dataIndex: 'action',
-                            key: 'action'
+                            title: 'Доска',
+                            dataIndex: 'Agile',
+                            key: 'agile',
+                            render: (text, record) => (
+                                <Space key={text} size="middle">
+                                    <Link to={Pages.PROJECTS_BOARD_PATH + '/' + record.name}>Доска</Link>
+                                </Space>
+                            )
                         }
                     ]}
                     dataSource={[

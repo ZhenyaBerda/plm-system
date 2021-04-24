@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Typography } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import './login.css';
 
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-};
-
+const { Title, Text } = Typography;
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isRemember, setIsRemember] = useState(false);
+    const [isRemember, setIsRemember] = useState(true);
+
+    const handleEmail = (value: string) => {
+        setEmail(value)
+    }
+
+    const handlePassword = (value: string) => {
+        setPassword(value)
+    }
+
+    const handleChecked = (value: boolean) => {
+        setIsRemember(value)
+    }
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
@@ -26,53 +31,69 @@ const Login = () => {
         console.log('Failed:', errorInfo);
     };
     return (
-        <div className={'login'}>
-            <Form
-                {...layout}
-                className={'form'}
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-            >
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[{ required: true, message: 'Please input your email!' }]}
+        <div className={'login-page'}>
+            <div className={'login'}>
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    style={{ minWidth: '450px' }}
                 >
-                    <Input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Form.Item>
-
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                >
-                    <Input.Password
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Item>
-
-                <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                    <Checkbox
-                       checked={isRemember}
-                       onChange={(e) => setIsRemember(e.target.checked)}
+                    <div className={'title'}>
+                        <Text type="secondary">Welcome back!</Text>
+                        <Title style={{ marginTop: '10px', color: '#001529' }}>
+                            Login your account
+                        </Title>
+                    </div>
+                    <Form.Item
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your Username!' }]}
                     >
-                        Remember me
-                    </Checkbox>
-                </Form.Item>
+                        <Input prefix={<UserOutlined className="site-form-item-icon" />}
+                               placeholder="Email"
+                               value={email}
+                               onChange={(e) => handleEmail(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your Password!' }]}
+                    >
+                        <Input
+                            prefix={<LockOutlined className="site-form-item-icon" />}
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => handlePassword(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Form.Item name="remember" valuePropName="checked" noStyle>
+                            <Checkbox
+                                checked={isRemember}
+                                onChange={(e) => handleChecked(e.target.checked)}
+                            >
+                                Remember me
+                            </Checkbox>
+                        </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
-            </Form>
+                    </Form.Item>
 
+                    <Form.Item>
+                        <Button
+                            style={{ width: '100%' }}
+                            type="primary"
+                            htmlType="submit"
+                            className="login-form-button">
+                            Log in
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+            <div className={'login-info'}>
+d
+            </div>
         </div>
     );
 }
