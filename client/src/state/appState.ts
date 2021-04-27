@@ -4,7 +4,6 @@ import { AppState } from "./@types";
 enum actions {
     LOG_IN,
     LOG_OUT,
-    LOGGED_IN_FUNCTION,
     SET_AUTHENTICATION_ERROR,
 }
 
@@ -17,13 +16,13 @@ export type AppAction =
 export const appActions = {
     login: (user: User) => ({ type: actions.LOG_IN, user }),
     logout: () => ({ type: actions.LOG_OUT }),
-    loggedInFunction: (user: User) => ({ type: actions.LOGGED_IN_FUNCTION, user }),
     setAuthenticationError: (error: string) => ({ type: actions.SET_AUTHENTICATION_ERROR, error }),
 }
 
 const initialState: AppState = {
     isAuthenticated: null,
     user: {
+        id: "",
         firstName: "",
         lastName: "",
         email: ""

@@ -11,6 +11,11 @@
     flex-basis: 50vw;
 }
 
+.loginbox {
+    display: flex;
+    flex-direction: column;
+}
+
 .form {
     width: 600px;
 }
@@ -23,6 +28,5 @@
 .login-info {
     background-color: #001529;
     flex-basis: 50vw;
-
 }
 

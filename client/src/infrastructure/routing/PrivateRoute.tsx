@@ -1,10 +1,12 @@
+import { useIsAuthenticated } from "@azure/msal-react";
 import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 
-import { isAuthenticated } from "../auth/authService";
 import { LOGIN_PATH } from '../../@types';
+import { isAuthenticated } from "../auth/authService";
 
 const PrivateRoute = ({ children, component: Component, render, ...rest }: RouteProps) => {
+    const isAuthenticated = useIsAuthenticated();
     return (
         <Route
             {...rest}

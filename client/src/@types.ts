@@ -1,12 +1,14 @@
-export const MICROSOFT_PATH = '';
+export const API_PATH = 'https://superpupercompany.sharepoint.com';
+export const GRAPH_PATH = 'https://graph.microsoft.com';
+
 export const LOGIN_PATH = '/login';
 export const USERS_PATH = '/';
-export const PROJECTS_PATH = '/projects';
-export const PROJECTS_BOARD_PATH = '/projects/board';
+export const GROUPS_PATH = '/groups';
+export const GROUPS_BOARD_PATH = '/groups/board';
 
 export const Pages = {
     LOGIN_PATH,
     USERS_PATH,
-    PROJECTS_PATH,
-    PROJECTS_BOARD_PATH
+    GROUPS_PATH,
+    GROUPS_BOARD_PATH
 }

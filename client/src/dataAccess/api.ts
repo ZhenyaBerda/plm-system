@@ -1,3 +1,25 @@
-export const getUsers = () => {
+import {GRAPH_PATH} from "../@types";
 
+export const getUsers = async (accessToken: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/users`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            "Accept": "application/json"
+        }
+    })
+
+   return response.json();
+}
+
+export const getGroupLists = async (accessToken: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/groups`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            "Accept": "application/json"
+        }
+    })
+
+   return response.json();
 }

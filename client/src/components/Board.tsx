@@ -1,11 +1,21 @@
 import React, {useState} from 'react';
 import {DragDropContext} from 'react-beautiful-dnd';
 import Column from './Column';
-import {Task} from "../dataAccess/models";
+import { Button } from 'antd';
+import {PlusOutlined} from '@ant-design/icons';
+
 import initialData from '../dataAccess/initData';
+
+import './styles/Board.css';
+import CreateTaskDialog from "../dialogs/CreateTaskDialog";
 
 const Board = () => {
     const [state, setState] = useState(initialData)
+    const [visibleNewTask, setVisibleNewTask] = useState(false)
+
+    const handleVisibleNewTask = (visible: boolean) => {
+        setVisibleNewTask(visible)
+    }
 
     const onDragEnd = (result: any) => {
         const {destination, source, draggableId} = result;
@@ -37,7 +47,6 @@ const Board = () => {
                 taskIds: newTaskIds
             }
 
-            console.log(newColumn)
             const newState = {
                 ...state,
                 columns: {
@@ -74,28 +83,44 @@ const Board = () => {
             }
         }
         setState(newState)
-
-
     }
+
+    const handleAddTask = () => {
+        setVisibleNewTask(true);
+    }
+
+
     return (
-        <DragDropContext
-            onDragEnd={onDragEnd}
-        >
-            <div style={{ display: 'flex' }}>
-                {state.columnOrder.map((columnId) => {
-                    // @ts-ignore
-                    const column = state.columns[columnId]
-                    // @ts-ignore
-                    const tasks = column.taskIds.map((taskId: string) => state.tasks[taskId]
-                    )
-                    return (
-                        <Column key={column.id} id={column.id} tasks={tasks} title={column.title}/>
-                    )
-
-                })}
-
+        <div>
+            <div className={'toolbar'}>
+                <Button
+                    size={'large'}
+                    type={'text'}
+                    onClick={handleAddTask}
+                    icon={<PlusOutlined />}
+                >
+                    Добавить задачу
+                </Button>
             </div>
-        </DragDropContext>
+            <DragDropContext
+                onDragEnd={onDragEnd}
+            >
+                <div style={{display: 'flex'}}>
+                    {state.columnOrder.map((columnId) => {
+                        // @ts-ignore
+                        const column = state.columns[columnId]
+                        // @ts-ignore
+                        const tasks = column.taskIds.map((taskId: string) => state.tasks[taskId])
+                        return (
+                            <Column key={column.id} id={column.id} tasks={tasks} title={column.title}/>
+                        )
+                    })}
+
+                </div>
+            </DragDropContext>
+
+            {visibleNewTask && <CreateTaskDialog visible={visibleNewTask} setVisible={handleVisibleNewTask} />}
+        </div>
     );
 }
 

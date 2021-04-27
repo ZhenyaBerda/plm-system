@@ -4,7 +4,7 @@ import PrivateRoute from "../infrastructure/routing/PrivateRoute";
 
 import {Pages} from "../@types";
 import Login from "./Login";
-import Projects from "./Projects";
+import Groups from "./Groups";
 import Users from "./Users";
 import Agile from "./Agile";
 
@@ -12,9 +12,9 @@ export default function Index() {
     return (
         <Switch>
             <Route exact path={Pages.LOGIN_PATH} component={Login}/>
-            <PrivateRoute exact path={Pages.PROJECTS_PATH} component={Projects}/>
+            <PrivateRoute exact path={Pages.GROUPS_PATH} component={Groups}/>
             <PrivateRoute exact path={Pages.USERS_PATH} component={Users}/>
-            <PrivateRoute exact path={Pages.PROJECTS_BOARD_PATH + '/:projectName'} component={Agile}/>
+            <PrivateRoute exact path={Pages.GROUPS_BOARD_PATH + '/:projectName'} component={Agile}/>
             <Redirect to="/" />
         </Switch>
     );

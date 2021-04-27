@@ -1,24 +1,24 @@
 const initialData = {
     tasks: {
-        'task-1': { id: 'task-1', content: 'Take out the garbage' },
-        'task-2': { id: 'task-2', content: 'Watch my favorite show' },
-        'task-3': { id: 'task-3', content: 'Charge my phone' },
-        'task-4': { id: 'task-4', content: 'Cook dinner' }
+        '323': { id: '323', title: 'title 1', content: 'Take out the garbage', type: 'Задача' },
+        '234': { id: '234', title: 'title 2', content: 'Watch my favorite show', type: 'Задача' },
+        '235': { id: '235', title: 'title 3', content: 'Charge my phone', type: 'Задача' },
+        '223': { id: '223', title: 'title 4', content: 'Cook dinner', type: 'Задача' }
     },
     columns: {
         'column-1': {
             id: 'column-1',
-            title: 'New',
-            taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
+            title: 'Новое',
+            taskIds: ['323', '234', '235', '223']
         },
         'column-2': {
             id: 'column-2',
-            title: 'In progress',
+            title: 'В процессе',
             taskIds: []
         },
         'column-3': {
             id: 'column-3',
-            title: 'Done',
+            title: 'Выполнено',
             taskIds: []
         }
     },
