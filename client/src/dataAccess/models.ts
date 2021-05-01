@@ -5,7 +5,7 @@ export interface User {
     email: string
 }
 
-export enum TaskType {
+export enum ProcessType {
     TASK = 'задача',
     DOC = 'документация'
 }
@@ -14,7 +14,7 @@ export interface Task {
     id: string,
     title: string,
     content: string,
-    type: TaskType,
+    type: ProcessType,
     time: string
 }
 
@@ -24,4 +24,14 @@ export interface Group {
     displayName: string,
     mail: string,
     description: string
+}
+
+export interface GroupFile {
+    id: string,
+    name: string,
+    createdDate: string,
+    createdBy: string,
+    lastModifiedDate: string,
+    lastModifiedBy: string,
+    file: any
 }

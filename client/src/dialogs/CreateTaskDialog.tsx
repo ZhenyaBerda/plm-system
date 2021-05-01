@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Form, Input, Modal, Select} from "antd";
-import {Task, TaskType} from '../dataAccess/models';
+import {Task, ProcessType} from '../dataAccess/models';
 import TextArea from "antd/es/input/TextArea";
 
 const { Option } = Select;
@@ -16,7 +16,7 @@ const CreateTaskDialog = ({visible, setVisible}: Props) => {
         id: '0',
         title: '',
         content: '',
-        type: TaskType.TASK,
+        type: ProcessType.TASK,
         time: ''
     })
 
@@ -70,15 +70,15 @@ const CreateTaskDialog = ({visible, setVisible}: Props) => {
                     />
                 </Form.Item>
                 <Form.Item
-                    label={'Тип'}
+                    label={'Процесс'}
                 >
                     <Select
-                        placeholder={'Выберете тип задачи'}
+                        placeholder={'Выберите тип задачи'}
                         value={task.type}
                         onChange={handleType}
                     >
-                        <Option value={TaskType.TASK}>Задача</Option>
-                        <Option value={TaskType.DOC}>Документация</Option>
+                        <Option value={ProcessType.TASK}>Задача</Option>
+                        <Option value={ProcessType.DOC}>Документация</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item

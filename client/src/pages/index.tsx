@@ -7,6 +7,7 @@ import Login from "./Login";
 import Groups from "./Groups";
 import Users from "./Users";
 import Agile from "./Agile";
+import Files from "./Files";
 
 export default function Index() {
     return (
@@ -14,7 +15,8 @@ export default function Index() {
             <Route exact path={Pages.LOGIN_PATH} component={Login}/>
             <PrivateRoute exact path={Pages.GROUPS_PATH} component={Groups}/>
             <PrivateRoute exact path={Pages.USERS_PATH} component={Users}/>
-            <PrivateRoute exact path={Pages.GROUPS_BOARD_PATH + '/:projectName'} component={Agile}/>
+            <PrivateRoute exact path={Pages.GROUPS_PATH + '/:groupId'} component={Files}/>
+            <PrivateRoute exact path={Pages.GROUPS_BOARD_PATH + '/:groupId'} component={Agile}/>
             <Redirect to="/" />
         </Switch>
     );
