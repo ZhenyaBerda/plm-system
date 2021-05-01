@@ -40,21 +40,18 @@ const Groups = () => {
                         {
                             title: 'Название',
                             dataIndex: 'displayName',
-                            key: 'displayName'
+                            key: 'displayName',
+                            align: 'center',
                         },
                         {
                             title: 'Дата создания',
                             dataIndex: 'createdDateTime',
                             key: 'createdDateTime',
+                            align: 'center',
                             render: (text) => {
                                 const date = new Date(text);
-
-                                let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-                                let month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
-                                let year = date.getFullYear().toString()
-
                                 return (
-                                    <span>{day}.{month}.{year}</span>
+                                    <span>{date.toLocaleString()}</span>
                                 )
                             }
                         },
@@ -62,6 +59,7 @@ const Groups = () => {
                             title: 'Agile доска',
                             dataIndex: 'Agile',
                             key: 'agile',
+                            align: 'center',
                             render: (text, record) => (
                                 <Space key={text} size="middle">
                                     <Link to={Pages.GROUPS_BOARD_PATH + '/' + record.id}>
@@ -74,6 +72,7 @@ const Groups = () => {
                             title: 'Документы',
                             dataIndex: 'docs',
                             key: 'docs',
+                            align: 'center',
                             render: (text, render) => (
                                 <Link to={Pages.GROUPS_PATH + '/' + render.id}>
                                     <FileOutlined />

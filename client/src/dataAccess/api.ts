@@ -1,4 +1,5 @@
 import {GRAPH_PATH} from "../@types";
+import {Preview} from "./models";
 
 export const getUsers = async (accessToken: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/users`, {
@@ -34,4 +35,17 @@ export const getGroupFiles = async (accessToken: string, groupId: string) => {
     })
 
     return response.json();
+}
+
+export const getItemPreview = async (accessToken: string, groupId: string, itemId: string): Promise<Preview> => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/items/${itemId}/preview`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }
+    )
+
+   return response.json();
 }

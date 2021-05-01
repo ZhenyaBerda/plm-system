@@ -33,5 +33,12 @@ export interface GroupFile {
     createdBy: string,
     lastModifiedDate: string,
     lastModifiedBy: string,
-    file: any
+    file: any,
+    webUrl: string,
+}
+
+export interface Preview {
+    getUrl: string,
+    postParameters: string,
+    postUrl: string
 }
