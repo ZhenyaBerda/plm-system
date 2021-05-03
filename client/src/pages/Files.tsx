@@ -54,7 +54,7 @@ const Files = () => {
         if (data !== null) {
             const link = document.createElement('a');
             // @ts-ignore
-            link.href = data.getUrl;
+            link.href = data.link.webUrl;
             link.setAttribute('target', '_blank');
             document.body.appendChild(link);
             link.click()

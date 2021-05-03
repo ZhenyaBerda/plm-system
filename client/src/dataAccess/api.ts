@@ -38,12 +38,12 @@ export const getGroupFiles = async (accessToken: string, groupId: string) => {
 }
 
 export const getItemPreview = async (accessToken: string, groupId: string, itemId: string): Promise<Preview> => {
-    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/items/${itemId}/preview`, {
+    const response = await fetch(`${GRAPH_PATH}/beta/groups/${groupId}/drive/items/${itemId}/createLink`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 "Content-Type": "application/x-www-form-urlencoded"
-            }
+            },
         }
     )
 
