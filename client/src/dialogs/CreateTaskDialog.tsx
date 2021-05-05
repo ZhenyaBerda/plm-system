@@ -1,24 +1,36 @@
 import React, {ChangeEvent, useState} from 'react';
-import {Form, Input, Modal, Select} from "antd";
+import {DatePicker, Form, Input, Modal, Select} from "antd";
 import {Task, ProcessType} from '../dataAccess/models';
 import TextArea from "antd/es/input/TextArea";
-
-const { Option } = Select;
+import {getGroupMembers, getGroupPlans, getPlanTasks} from '../dataAccess/api';
+import {useMsal} from "@azure/msal-react";
+import {loginRequest} from "../dataAccess/authConfig";
+import {AuthenticationResult} from "@azure/msal-browser";
+import moment, { Moment } from 'moment';
 
 interface Props {
     visible: boolean,
     setVisible: (visible: boolean) => void,
+    planId: string,
+    groupId: string
 }
 
-const CreateTaskDialog = ({visible, setVisible}: Props) => {
+const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [task, setTask] = useState<Task>({
-        id: '0',
+        id: '',
+        planId: '',
+        percentComplete: 0,
+        assigmentBy: '',
+        dueDateTime: '',
         title: '',
-        content: '',
-        type: ProcessType.TASK,
-        time: ''
+        description: ''
     })
+
+    const [options, setOptions] = useState<{label: string, value: string}[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {instance, accounts} = useMsal();
 
     const handleAddButton = () => {
         setConfirmLoading(true)
@@ -33,11 +45,34 @@ const CreateTaskDialog = ({visible, setVisible}: Props) => {
     }
 
     const handleDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setTask({...task, content: e.target.value})
+        setTask({...task, description: e.target.value})
     }
 
-    const handleType = (value: any) => {
-        setTask({...task, type: value})
+    const handleAssign = async (open: boolean) => {
+        if (open) {
+            setIsLoading(true)
+
+            // @ts-ignore
+            instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
+                .then(async (response: AuthenticationResult) => {
+                    const data = await getGroupMembers(response.accessToken, groupId);
+                    setOptions(data.value.map((it: any) => ({
+                        label: it.displayName,
+                        value: it.id,
+                    })))
+                })
+                .catch((e: any) => console.log(e));
+
+        }
+        setIsLoading(false)
+    }
+
+    const handleChangeAssign = (value: string) => {
+        setTask({...task, assigmentBy: value})
+    }
+
+    const handleDeadline = (value: Moment | null) => {
+        setTask({...task, dueDateTime: moment(value).toISOString()})
     }
 
     return (
@@ -54,7 +89,9 @@ const CreateTaskDialog = ({visible, setVisible}: Props) => {
                 layout="vertical"
             >
                 <Form.Item
+                    name={'title'}
                     label={'Задача'}
+                    rules={[{ required: true, message: 'Введите название задачи' }]}
                 >
                     <Input
                         value={task.title}
@@ -62,29 +99,35 @@ const CreateTaskDialog = ({visible, setVisible}: Props) => {
                     />
                 </Form.Item>
                 <Form.Item
+                    name={'description'}
                     label={'Описание'}
                 >
                     <TextArea
-                        value={task.content}
+                        value={task.description}
                         onChange={handleDescription}
                     />
                 </Form.Item>
                 <Form.Item
-                    label={'Процесс'}
+                    label={'Назначить'}
                 >
                     <Select
-                        placeholder={'Выберите тип задачи'}
-                        value={task.type}
-                        onChange={handleType}
-                    >
-                        <Option value={ProcessType.TASK}>Задача</Option>
-                        <Option value={ProcessType.DOC}>Документация</Option>
-                    </Select>
+                        placeholder={'Назначить'}
+                        value={task.assigmentBy}
+                        onDropdownVisibleChange={handleAssign}
+                        onChange={handleChangeAssign}
+                        options={options}
+                        loading={isLoading}
+                    />
                 </Form.Item>
                 <Form.Item
-                    label={'Время выполнения'}
+                    label={'Срок выполнения'}
                 >
-                    <Input value={task.time}/>
+                    <DatePicker
+                        placeholder={'Срок'}
+                        value={!!task.dueDateTime ? moment(task.dueDateTime) : null}
+                        format={'DD.MM.YYYY'}
+                        onChange={handleDeadline}
+                    />
                 </Form.Item>
             </Form>
         </Modal>

@@ -33,7 +33,7 @@ const TaskCard = ({task ,index}: Props) => {
                         size={'small'}
                     >
                         <p><Text strong>#{task.id}: </Text><Text>{task.title}</Text></p>
-                        <p><Text type={'secondary'}>Тип: </Text><Text>{task.type}</Text></p>
+                        <p><Text type={'secondary'}>Тип: </Text><Text>{task.percentComplete}</Text></p>
                     </Card>
                 </Container>
             )}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Breadcrumb, Space, Table} from "antd";
 import{ Link } from "react-router-dom";
 import Page from './Page';
@@ -8,7 +8,7 @@ import {AuthenticationResult} from "@azure/msal-common";
 import {getGroupLists} from "../dataAccess/api";
 import {useMsal} from "@azure/msal-react";
 import {Group} from "../dataAccess/models";
-import { FileOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { FileOutlined, AppstoreOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import './Page.css';
 
@@ -29,7 +29,7 @@ const Groups = () => {
                         })
                     })
                 .catch((e: any) => console.log(e));
-        }, [])
+        }, []);
 
     return (
         <Page>

@@ -12,10 +12,12 @@ export enum ProcessType {
 
 export interface Task {
     id: string,
+    planId: string,
+    percentComplete: number,
+    assigmentBy: string,
+    dueDateTime: string,
     title: string,
-    content: string,
-    type: ProcessType,
-    time: string
+   description?: string
 }
 
 export interface Group {

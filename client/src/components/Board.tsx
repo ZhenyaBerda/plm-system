@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {DragDropContext} from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column';
 import { Button } from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
@@ -9,8 +9,14 @@ import initialData from '../dataAccess/initData';
 import './styles/Board.css';
 import CreateTaskDialog from "../dialogs/CreateTaskDialog";
 
-const Board = () => {
-    const [state, setState] = useState(initialData)
+interface Props {
+    data: any,
+    planId: string,
+    groupId: string,
+}
+
+const Board = ({data, planId, groupId}: Props) => {
+    const [state, setState] = useState(data)
     const [visibleNewTask, setVisibleNewTask] = useState(false)
 
     const handleVisibleNewTask = (visible: boolean) => {
@@ -106,7 +112,7 @@ const Board = () => {
                 onDragEnd={onDragEnd}
             >
                 <div style={{display: 'flex'}}>
-                    {state.columnOrder.map((columnId) => {
+                    {state.columnOrder.map((columnId: string ) => {
                         // @ts-ignore
                         const column = state.columns[columnId]
                         // @ts-ignore
@@ -119,7 +125,13 @@ const Board = () => {
                 </div>
             </DragDropContext>
 
-            {visibleNewTask && <CreateTaskDialog visible={visibleNewTask} setVisible={handleVisibleNewTask} />}
+            {visibleNewTask &&
+            <CreateTaskDialog
+                visible={visibleNewTask}
+                setVisible={handleVisibleNewTask}
+                planId={planId}
+                groupId={groupId}
+            />}
         </div>
     );
 }

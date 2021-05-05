@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import{ Link } from "react-router-dom";
 import { Pages } from '../@types';
-import {Space, Table} from "antd";
+import {Button, Space, Table, Upload} from "antd";
 import { useState } from 'react';
 import {loginRequest} from "../dataAccess/authConfig";
 import {AuthenticationResult} from "@azure/msal-common";
-import {getGroupFiles, getItemPreview} from "../dataAccess/api";
+import {deleteGroupFile, getGroupFiles, getItemPreview} from "../dataAccess/api";
 import {useMsal} from "@azure/msal-react";
-import { EyeOutlined } from '@ant-design/icons';
+import {DeleteOutlined, EyeOutlined} from '@ant-design/icons';
 import {GroupFile, Preview} from "../dataAccess/models";
 import {useParams} from "react-router";
 import Page from "./Page";
@@ -16,16 +16,17 @@ import './Page.css';
 
 const Files = () => {
     const [files, setFiles] = useState<GroupFile[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const {groupId} = useParams<{ groupId: string }>();
 
     const {instance, accounts} = useMsal();
 
-    useEffect(() => {
+    const getFiles = async () => {
         // @ts-ignore
         instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
-            .then((response: AuthenticationResult) => {
-                getGroupFiles(response.accessToken, groupId).then((response: any) => {
+            .then( async (response: AuthenticationResult) => {
+                await getGroupFiles(response.accessToken, groupId).then((response: any) => {
                     setFiles(response.value.map((it: any) => ({
                         id: it.id,
                         key: it.id,
@@ -40,6 +41,10 @@ const Files = () => {
                 })
             })
             .catch((e: any) => console.log(e));
+    }
+
+    useEffect(() => {
+        getFiles();
     }, []);
 
     const onPreview = async (url: string) => {
@@ -60,6 +65,34 @@ const Files = () => {
             link.click()
             link.remove();
         }
+    };
+
+    const onDelete = useCallback(async (item: GroupFile) => {
+        // @ts-ignore
+        await instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
+            .then(async (response: AuthenticationResult) => {
+                await deleteGroupFile(response.accessToken, groupId, item.id);
+            })
+            .catch((e: any) => console.log(e));
+
+        await getFiles();
+    }, []);
+
+    const onUpload = async (info: any) => {
+         setIsLoading(true);
+
+
+
+
+
+        // @ts-ignore
+        // await instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
+        //     .then(async (response: AuthenticationResult) => {
+        //         // await
+        //     })
+        //     .catch((e: any) => console.log(e));
+        //
+        // await getFiles();
     }
 
     return (
@@ -123,12 +156,26 @@ const Files = () => {
                         align: 'center',
                         render: (text, render) => {
                             return (
-                                <EyeOutlined onClick={() => onPreview(render.id)} />
+                                <EyeOutlined style={{ color: '#1890ff' }} onClick={() => onPreview(render.id)} />
                             )
                         }
+                    },
+                    {
+                        title: 'Удалить',
+                        dataIndex: 'delete',
+                        key: 'delete',
+                        align: 'center',
+                        render: (text, render) => (
+                            <DeleteOutlined style={{ color: 'red' }} onClick={() => onDelete(render)} />
+                        )
                     }
                 ]}
                 dataSource={files}
+                footer={() =>
+                    <Upload beforeUpload={onUpload}>
+                        <Button loading={isLoading}>Загрузить файл</Button>
+                    </Upload>
+                }
             />
         </Page>
     );
