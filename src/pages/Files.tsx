@@ -1,25 +1,24 @@
 import React, {useCallback, useEffect} from 'react';
 import{ Link } from "react-router-dom";
 import { Pages } from '../@types';
-import {Button, Space, Table, Upload} from "antd";
+import {Button, Space, Table} from "antd";
 import { useState } from 'react';
 import {loginRequest} from "../dataAccess/authConfig";
 import {AuthenticationResult} from "@azure/msal-common";
-import {deleteGroupFile, getGroupFiles, getItemPreview} from "../dataAccess/api";
+import {deleteGroupFile, getGroupFiles, getItemPreview, uploadFile} from "../dataAccess/api";
 import {useMsal} from "@azure/msal-react";
 import {DeleteOutlined, EyeOutlined} from '@ant-design/icons';
 import {GroupFile, Preview} from "../dataAccess/models";
 import {useParams} from "react-router";
 import Page from "./Page";
+import UploadDialog from "../dialogs/UploadDialog";
 
 import './Page.css';
-import { UploadChangeParam } from 'antd/lib/upload';
-import { UploadFile } from 'antd/lib/upload/interface';
 
 const Files = () => {
     const [files, setFiles] = useState<GroupFile[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [file, setFile] = useState<File>();
+    const [showUploader, setShowUploader] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {groupId} = useParams<{ groupId: string }>();
 
@@ -81,22 +80,35 @@ const Files = () => {
         await getFiles();
     }, []);
 
-    const onUpload = async () => {
-         setIsLoading(true);
+    const onUpload = async (fileName: string, file: any) => {
+        setIsLoading(true);
 
         //@ts-ignore
         await instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
             .then(async (response: AuthenticationResult) => {
-                const formData = new FormData();
-                // formData.append(info.file.name, );
+                const data = await uploadFile(response.accessToken, groupId, fileName, file);
+                console.log(data)
             })
             .catch((e: any) => console.log(e));
 
         await getFiles();
+
+        setIsLoading(false);
     };
+
+    const handleUploaderClose = () => {
+        setShowUploader(false)
+    }
 
     return (
         <Page>
+            <UploadDialog
+                isVisible={showUploader}
+                onClose={handleUploaderClose}
+                onUpload={onUpload}
+                isLoading={isLoading}
+            />
+
             <Space className={'space-link'}>
                 <Link className={'link'} to={Pages.GROUPS_PATH}>Вернуться к группам</Link>
             </Space>
@@ -172,12 +184,7 @@ const Files = () => {
                 ]}
                 dataSource={files}
                 footer={() =>
-                    <Upload beforeUpload={(file) => {
-                        setFile(file);
-                        return false;
-                    }}>
-                        <Button loading={isLoading}>Загрузить файл</Button>
-                    </Upload>
+                    <Button onClick={() => setShowUploader(true)}>Загрузить файл</Button>
                 }
             />
         </Page>

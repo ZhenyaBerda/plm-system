@@ -13,6 +13,19 @@ export enum ProcessType {
     DOC = 'документация'
 }
 
+export interface  TaskModel {
+    planId: string,
+    title: string,
+}
+
+export interface UpdateTaskModel {
+    planId: string,
+    title?: string,
+    description?: string,
+    assignments?: any | null,
+    dueDateTime?: string | null,
+}
+
 export interface Task {
     id: string,
     planId: string,
@@ -23,12 +36,20 @@ export interface Task {
    description?: string
 }
 
+export interface Member {
+    id: string,
+}
+
 export interface Group {
-    key: string,
+    key?: string,
     id: string,
     displayName: string,
-    mail: string,
-    description: string
+    mail?: string,
+    description: string | null,
+    mailEnabled?: boolean,
+    mailNickname?: string | null,
+    securityEnabled?: boolean,
+    members?: Member[],
 }
 
 export interface GroupFile {

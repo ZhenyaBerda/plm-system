@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 import {DatePicker, Form, Input, Modal, Select} from "antd";
-import {Task, ProcessType} from '../dataAccess/models';
+import {Task, ProcessType, TaskModel, UpdateTaskModel} from '../dataAccess/models';
 import TextArea from "antd/es/input/TextArea";
-import {getGroupMembers, getGroupPlans, getPlanTasks} from '../dataAccess/api';
+import {createTask, getGroupMembers, getGroupPlans, getPlanTasks, updateTask} from '../dataAccess/api';
 import {useMsal} from "@azure/msal-react";
 import {loginRequest} from "../dataAccess/authConfig";
 import {AuthenticationResult} from "@azure/msal-browser";
@@ -31,10 +31,6 @@ const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const {instance, accounts} = useMsal();
-
-    const handleAddButton = () => {
-        setConfirmLoading(true)
-    }
 
     const handleCancel = () => {
         setVisible(false)
@@ -75,6 +71,32 @@ const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
         setTask({...task, dueDateTime: moment(value).toISOString()})
     }
 
+    const handleCreateTask = () => {
+        setConfirmLoading(true)
+        // @ts-ignore
+        instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
+            .then(async (response: AuthenticationResult) => {
+                const taskModel: TaskModel = {
+                    planId: planId,
+                    title: task.title,
+                }
+                const res = await createTask(response.accessToken, taskModel);
+                const updateTaskModel: UpdateTaskModel = {
+                    planId: planId,
+                    assignments: {
+                        [task.assigmentBy]: {
+                            "@odata.type": "#microsoft.graph.plannerAssignment",
+                            "orderHint":` !`,
+                        }
+                    }
+                }
+                await updateTask(response.accessToken, res.id, updateTaskModel, res['@odata.etag']);
+            })
+            .catch((e: any) => console.log(e));
+
+        setConfirmLoading(false)
+    }
+
     return (
         <Modal
             title={'Добавить новую задачу'}
@@ -83,7 +105,7 @@ const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
             cancelText={'Отмена'}
             okText={'Добавить'}
             onCancel={handleCancel}
-            onOk={handleAddButton}
+            onOk={handleCreateTask}
         >
             <Form
                 layout="vertical"

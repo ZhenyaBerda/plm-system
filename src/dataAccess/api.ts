@@ -1,5 +1,5 @@
 import {GRAPH_PATH} from "../@types";
-import {Preview} from "./models";
+import {Group, Preview, TaskModel, UpdateTaskModel} from "./models";
 
 //USERS
 
@@ -41,6 +41,20 @@ export const getGroupLists = async (accessToken: string) => {
    return response.json();
 }
 
+export const createGroup = async (accessToken: string, group: Group) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/groups`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(group)
+    })
+
+    return response.json();
+}
+
 export const getGroupFiles = async (accessToken: string, groupId: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/root/children`, {
         method: 'GET',
@@ -77,14 +91,13 @@ export const deleteGroupFile = async (accessToken: string, groupId: string, item
     return response.json();
 }
 
-export const uploadFile = async (accessToken: string, groupId: string, fileName: string, data: FormData) => {
-    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/items/{parent-id}:/${fileName}:/content`, {
+export const uploadFile = async (accessToken: string, groupId: string, fileName: string, content: any) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/root/${fileName}/${content}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': `text/plain`
+            "Accept": "application/json"
         },
-        body: data,
     })
 
     return response.json();
@@ -122,6 +135,35 @@ export const getGroupMembers = async (accessToken: string, groupId: string) => {
             'Authorization': `Bearer ${accessToken}`,
         },
     })
+
+    return response.json();
+}
+
+export const createTask = async (accessToken: string, task: TaskModel) => {
+    const response = await fetch (`${GRAPH_PATH}/beta/planner/tasks`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(task),
+        }
+    )
+
+    return response.json();
+}
+
+export const updateTask = async (accessToken: string, taskId: string, task: UpdateTaskModel, etag: string) => {
+    const response = await fetch (`${GRAPH_PATH}/beta/planner/tasks/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                "if-Match": etag,
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(task),
+        }
+    )
 
     return response.json();
 }
