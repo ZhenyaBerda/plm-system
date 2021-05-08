@@ -13,10 +13,13 @@ import {useParams} from "react-router";
 import Page from "./Page";
 
 import './Page.css';
+import { UploadChangeParam } from 'antd/lib/upload';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 const Files = () => {
     const [files, setFiles] = useState<GroupFile[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [file, setFile] = useState<File>();
 
     const {groupId} = useParams<{ groupId: string }>();
 
@@ -78,22 +81,19 @@ const Files = () => {
         await getFiles();
     }, []);
 
-    const onUpload = async (info: any) => {
+    const onUpload = async () => {
          setIsLoading(true);
 
+        //@ts-ignore
+        await instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
+            .then(async (response: AuthenticationResult) => {
+                const formData = new FormData();
+                // formData.append(info.file.name, );
+            })
+            .catch((e: any) => console.log(e));
 
-
-
-
-        // @ts-ignore
-        // await instance.acquireTokenSilent({...loginRequest, account: accounts[0]})
-        //     .then(async (response: AuthenticationResult) => {
-        //         // await
-        //     })
-        //     .catch((e: any) => console.log(e));
-        //
-        // await getFiles();
-    }
+        await getFiles();
+    };
 
     return (
         <Page>
@@ -172,7 +172,10 @@ const Files = () => {
                 ]}
                 dataSource={files}
                 footer={() =>
-                    <Upload beforeUpload={onUpload}>
+                    <Upload beforeUpload={(file) => {
+                        setFile(file);
+                        return false;
+                    }}>
                         <Button loading={isLoading}>Загрузить файл</Button>
                     </Upload>
                 }

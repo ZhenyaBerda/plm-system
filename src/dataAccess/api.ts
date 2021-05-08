@@ -77,13 +77,14 @@ export const deleteGroupFile = async (accessToken: string, groupId: string, item
     return response.json();
 }
 
-export const uploadFile = async (accessToken: string, groupId: string, file: File) => {
-    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/items/{parent-id}:/${file.name}:/content`, {
+export const uploadFile = async (accessToken: string, groupId: string, fileName: string, data: FormData) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/drive/items/{parent-id}:/${fileName}:/content`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': `text/plain`
         },
+        body: data,
     })
 
     return response.json();
