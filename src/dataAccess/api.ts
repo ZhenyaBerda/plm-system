@@ -1,6 +1,8 @@
 import {GRAPH_PATH} from "../@types";
 import {Preview} from "./models";
 
+//USERS
+
 export const getUsers = async (accessToken: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/users`, {
         method: "GET",
@@ -12,6 +14,20 @@ export const getUsers = async (accessToken: string) => {
 
    return response.json();
 }
+
+export const getUserInfo = async (accessToken: string, userId: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/users/${userId}`, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            "Accept": "application/json"
+        }
+    })
+
+    return response.json();
+}
+
+// GROUPS
 
 export const getGroupLists = async (accessToken: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/groups`, {
@@ -72,6 +88,9 @@ export const uploadFile = async (accessToken: string, groupId: string, file: Fil
 
     return response.json();
 }
+
+
+//AGILE
 
 export const getGroupPlans = async (accessToken: string, groupId: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/planner/plans`, {

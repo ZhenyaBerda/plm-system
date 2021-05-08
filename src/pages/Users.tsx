@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { Table } from 'antd';
-
-import './Page.css';
 import Page from './Page';
-import { getUsers } from '../dataAccess/api';
+import {getUserInfo, getUsers} from '../dataAccess/api';
 import {AuthenticationResult} from "@azure/msal-common";
 import {loginRequest} from "../dataAccess/authConfig";
 import {useMsal} from "@azure/msal-react";
 import {User} from "../dataAccess/models";
+import {UserOutlined} from '@ant-design/icons';
+
+import './Page.css';
+import UserInfoDrawer from '../components/UserInfoDrawer';
 
 const Users = () => {
     const [users, setUsers] = useState<User[]>([]);
+    const [selectedUser, setSelectedUser] = useState('');
+    const [showUserInfo, setShowUserInfo] = useState(false);
 
     const { instance, accounts } = useMsal();
 
@@ -30,9 +34,27 @@ const Users = () => {
                 })
             })
             .catch(e => console.log(e));
-    }, [])
+    }, []);
+
+    const getUser = (userId: string) => {
+        setSelectedUser(userId);
+        setShowUserInfo(true);
+    }
+
+    const handleUserInfoDrawer = () => {
+        setShowUserInfo(false);
+        setSelectedUser('');
+    }
+
     return (
         <Page>
+            {selectedUser &&
+            <UserInfoDrawer
+                userId={selectedUser}
+                isVisible={showUserInfo}
+                onClose={handleUserInfoDrawer}
+            />
+            }
             <Table
                 className={'table'}
                 columns={[
@@ -47,9 +69,13 @@ const Users = () => {
                         key: 'email'
                     },
                     {
-                        title: 'Действия',
-                        dataIndex: 'action',
-                        key: 'action'
+                        title: 'Подробно',
+                        dataIndex: 'info',
+                        key: 'info',
+                        align: 'center',
+                        render: (text, record) => (
+                            <UserOutlined style={{ color: '#1890ff' }} onClick={() => getUser(record.id)} />
+                        )
                     }
                 ]}
                 dataSource={users ? users.map(user => {

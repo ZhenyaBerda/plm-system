@@ -1,8 +1,11 @@
 export interface User {
     id: string,
-    firstName: string
-    lastName: string
-    email: string
+    firstName: string,
+    lastName: string,
+    email: string,
+    businessPhone?: string | null,
+    jobTitle?: string | null,
+    officeLocation?: string | null,
 }
 
 export enum ProcessType {

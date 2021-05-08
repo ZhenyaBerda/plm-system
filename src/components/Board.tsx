@@ -4,8 +4,6 @@ import Column from './Column';
 import { Button } from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 
-import initialData from '../dataAccess/initData';
-
 import './styles/Board.css';
 import CreateTaskDialog from "../dialogs/CreateTaskDialog";
 
