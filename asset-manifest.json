@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/plmsystem/static/css/main.40bea42c.chunk.css",
-    "main.js": "/plmsystem/static/js/main.89e0d655.chunk.js",
-    "main.js.map": "/plmsystem/static/js/main.89e0d655.chunk.js.map",
+    "main.js": "/plmsystem/static/js/main.f5a2cc04.chunk.js",
+    "main.js.map": "/plmsystem/static/js/main.f5a2cc04.chunk.js.map",
     "runtime-main.js": "/plmsystem/static/js/runtime-main.0950da0b.js",
     "runtime-main.js.map": "/plmsystem/static/js/runtime-main.0950da0b.js.map",
     "static/css/2.a5497ee8.chunk.css": "/plmsystem/static/css/2.a5497ee8.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.a5497ee8.chunk.css",
     "static/js/2.9b2b65d3.chunk.js",
     "static/css/main.40bea42c.chunk.css",
-    "static/js/main.89e0d655.chunk.js"
+    "static/js/main.f5a2cc04.chunk.js"
   ]
 }
