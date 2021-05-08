@@ -30,9 +30,8 @@ const authenticate = async (dispatch: Dispatch<any>, instance: IPublicClientAppl
                     }
                     dispatch(appActions.login(user));
                 })
-        }) .catch(() => dispatch(appActions.logout()))
+        }) .catch((e) => console.log(e))
     }
-
 };
 
 interface Props {
@@ -51,16 +50,7 @@ const Authentication = ({ children }: Props) => {
         void authenticate(dispatch, instance, accounts, isAuthenticated);
     }, [authenticationError, dispatch, accounts, accounts]);
 
-
-    if (isAuthenticated !== null) {
-        return <>{children}</>;
-    }
-    else if (authenticationError) {
-        return <div>{authenticationError}</div>;
-    }
-    else {
-        return <div>loading...</div>
-    }
+    return <>{children}</>;
 };
 
 export default Authentication;
