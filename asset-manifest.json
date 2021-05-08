@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/plmsystem/static/css/main.40bea42c.chunk.css",
+    "main.js": "/plmsystem/static/js/main.89e0d655.chunk.js",
+    "main.js.map": "/plmsystem/static/js/main.89e0d655.chunk.js.map",
+    "runtime-main.js": "/plmsystem/static/js/runtime-main.0950da0b.js",
+    "runtime-main.js.map": "/plmsystem/static/js/runtime-main.0950da0b.js.map",
+    "static/css/2.a5497ee8.chunk.css": "/plmsystem/static/css/2.a5497ee8.chunk.css",
+    "static/js/2.9b2b65d3.chunk.js": "/plmsystem/static/js/2.9b2b65d3.chunk.js",
+    "static/js/2.9b2b65d3.chunk.js.map": "/plmsystem/static/js/2.9b2b65d3.chunk.js.map",
+    "index.html": "/plmsystem/index.html",
+    "static/css/2.a5497ee8.chunk.css.map": "/plmsystem/static/css/2.a5497ee8.chunk.css.map",
+    "static/css/main.40bea42c.chunk.css.map": "/plmsystem/static/css/main.40bea42c.chunk.css.map",
+    "static/js/2.9b2b65d3.chunk.js.LICENSE.txt": "/plmsystem/static/js/2.9b2b65d3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0950da0b.js",
+    "static/css/2.a5497ee8.chunk.css",
+    "static/js/2.9b2b65d3.chunk.js",
+    "static/css/main.40bea42c.chunk.css",
+    "static/js/main.89e0d655.chunk.js"
+  ]
+}
