@@ -41,21 +41,17 @@ const Agile = () => {
 
     useEffect(() => {
         if (!!tasks) {
-            const tasksData = {
+            const tasksData: any = {
                 ...initialData
             };
 
             for (let task of tasks) {
-                // @ts-ignore
                 tasksData.tasks[task.id] = task;
                 if (task.percentComplete === 0) {
-                    // @ts-ignore
                     tasksData.columns['column-1'].taskIds.push(task.id)
                 } else if (task.percentComplete === 50) {
-                    // @ts-ignore
                     tasksData.columns['column-2'].taskIds.push(task.id)
                 } else {
-                    // @ts-ignore
                     tasksData.columns['column-3'].taskIds.push(task.id)
                 }
 

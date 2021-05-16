@@ -1,0 +1,12 @@
+.viewer-toolbar {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

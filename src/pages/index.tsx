@@ -8,6 +8,7 @@ import Groups from "./Groups";
 import Users from "./Users";
 import Agile from "./Agile";
 import Files from "./Files";
+import Viewer from "../viewer/Viewer";
 
 export default function Index() {
     return (
@@ -17,6 +18,7 @@ export default function Index() {
             <PrivateRoute exact path={Pages.USERS_PATH} component={Users}/>
             <PrivateRoute exact path={Pages.GROUPS_PATH + '/:groupId'} component={Files}/>
             <PrivateRoute exact path={Pages.GROUPS_BOARD_PATH + '/:groupId'} component={Agile}/>
+            <PrivateRoute exact path={Pages.VIEWER_PATH} component={Viewer}/>
             <Redirect to="/" />
         </Switch>
     );

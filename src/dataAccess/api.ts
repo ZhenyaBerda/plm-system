@@ -128,6 +128,28 @@ export const getPlanTasks = async (accessToken: string, planId: string) => {
     return response.json();
 }
 
+export const getTask = async (accessToken: string, taskId: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/planner/tasks/${taskId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    })
+
+    return response.json();
+}
+
+export const getTaskDetail = async (accessToken: string, taskId: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/planner/tasks/${taskId}/details`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    })
+
+    return response.json();
+}
+
 export const getGroupMembers = async (accessToken: string, groupId: string) => {
     const response = await fetch(`${GRAPH_PATH}/v1.0/groups/${groupId}/members`, {
         method: 'GET',
@@ -164,6 +186,20 @@ export const updateTask = async (accessToken: string, taskId: string, task: Upda
             body: JSON.stringify(task),
         }
     )
+
+    return response.json();
+}
+
+export const updateTaskDetail = async (accessToken: string, taskId: string, task: any, etag: string) => {
+    const response = await fetch(`${GRAPH_PATH}/v1.0/planner/tasks/${taskId}/details`, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            "if-Match": etag,
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(task),
+    })
 
     return response.json();
 }

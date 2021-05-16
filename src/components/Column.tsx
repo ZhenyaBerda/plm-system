@@ -9,7 +9,8 @@ import {Typography} from "antd";
 interface Props {
     id: string,
     tasks: Task[],
-    title: string
+    title: string,
+    groupId: string,
 }
 
 const TaskList = styled.div`
@@ -21,7 +22,7 @@ const TaskList = styled.div`
   min-height: 60vh;
 `
 
-const Column = ({id, tasks, title}: Props) => {
+const Column = ({id, tasks, title, groupId}: Props) => {
 
     const Container = styled.div`
   border: 1px solid lightgrey;
@@ -57,7 +58,7 @@ const Column = ({id, tasks, title}: Props) => {
                         className={'column'}
                         {...provided.droppableProps}
                     >
-                        {tasks && tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index}/>)}
+                        {tasks && tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index} groupId={groupId}/>)}
                         {provided.placeholder}
                     </TaskList>
                 )}

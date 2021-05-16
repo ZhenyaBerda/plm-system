@@ -13,7 +13,14 @@ import {setIsAuthenticated} from "../infrastructure/auth/authService";
 const { Header, Content, Sider, Footer } = Layout;
 
 const Page = (props: React.PropsWithChildren<any>) => {
-    const selectedKey = window.location.pathname === Pages.USERS_PATH ? ['1'] : ['2']
+    let selectedKey;
+    if (window.location.pathname === Pages.USERS_PATH) {
+        selectedKey = ['1']
+    } else if (window.location.pathname === Pages.VIEWER_PATH) {
+        selectedKey = ['3']
+    } else {
+        selectedKey = ['2']
+    }
 
     const dispatch = useDispatch();
     const user = useSelector(getUser);
@@ -34,6 +41,9 @@ const Page = (props: React.PropsWithChildren<any>) => {
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Link to={Pages.GROUPS_PATH}>Проекты</Link>
+                    </Menu.Item>
+                    <Menu.Item key="3">
+                        <Link to={Pages.VIEWER_PATH}>3D viewer</Link>
                     </Menu.Item>
                 </Menu>
             </Sider>

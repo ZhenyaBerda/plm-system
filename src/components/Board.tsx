@@ -35,15 +35,12 @@ const Board = ({data, planId, groupId}: Props) => {
             return;
         }
 
-        // @ts-ignore
         const start = state.columns[source.droppableId]
-        // @ts-ignore
         const finish = state.columns[destination.droppableId]
 
         if (start === finish) {
             const newTaskIds = Array.from(start.taskIds)
             newTaskIds.splice(source.index, 1)
-            // @ts-ignore
             newTaskIds.splice(destination.index, 0, draggableId)
 
             const newColumn = {
@@ -63,7 +60,6 @@ const Board = ({data, planId, groupId}: Props) => {
             return
         }
 
-        // Moving from one list to another
         const startTaskIds = Array.from(start.taskIds)
         startTaskIds.splice(source.index, 1)
         const newStart = {
@@ -111,12 +107,10 @@ const Board = ({data, planId, groupId}: Props) => {
             >
                 <div style={{display: 'flex'}}>
                     {state.columnOrder.map((columnId: string ) => {
-                        // @ts-ignore
                         const column = state.columns[columnId]
-                        // @ts-ignore
                         const tasks = column.taskIds.map((taskId: string) => state.tasks[taskId])
                         return (
-                            <Column key={column.id} id={column.id} tasks={tasks} title={column.title}/>
+                            <Column key={column.id} id={column.id} tasks={tasks} title={column.title} groupId={groupId}/>
                         )
                     })}
 

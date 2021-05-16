@@ -3,10 +3,11 @@ import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 
 import { LOGIN_PATH } from '../../@types';
-import { isAuthenticated } from "../auth/authService";
+import {useSelector} from "react-redux";
+import {getAuthenticated} from "../../state/selectors";
 
 const PrivateRoute = ({ children, component: Component, render, ...rest }: RouteProps) => {
-    const isAuthenticated = useIsAuthenticated();
+    const isAuthenticated = useSelector(getAuthenticated);
     return (
         <Route
             {...rest}

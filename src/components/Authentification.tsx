@@ -50,7 +50,12 @@ const Authentication = ({ children }: Props) => {
         void authenticate(dispatch, instance, accounts, isAuthenticated);
     }, [authenticationError, dispatch, accounts, accounts]);
 
-    return <>{children}</>;
+    if (isAuthenticated !== null) {
+        return <>{children}</>;
+    } else {
+        return <>loading</>
+    }
+
 };
 
 export default Authentication;

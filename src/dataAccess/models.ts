@@ -13,6 +13,10 @@ export enum ProcessType {
     DOC = 'документация'
 }
 
+export interface TaskDetail {
+    description: string
+}
+
 export interface  TaskModel {
     planId: string,
     title: string,
@@ -21,7 +25,6 @@ export interface  TaskModel {
 export interface UpdateTaskModel {
     planId: string,
     title?: string,
-    description?: string,
     assignments?: any | null,
     dueDateTime?: string | null,
 }
@@ -31,9 +34,11 @@ export interface Task {
     planId: string,
     percentComplete: number,
     assigmentBy: string,
+    assigmentName?: string,
     dueDateTime: string,
     title: string,
-   description?: string
+    description?: string,
+    createdBy?: string,
 }
 
 export interface Member {

@@ -12,7 +12,7 @@ interface Props {
     visible: boolean,
     setVisible: (visible: boolean) => void,
     planId: string,
-    groupId: string
+    groupId: string,
 }
 
 const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
@@ -59,6 +59,8 @@ const CreateTaskDialog = ({visible, setVisible, planId, groupId}: Props) => {
                 })
                 .catch((e: any) => console.log(e));
 
+        } else {
+            setOptions([]);
         }
         setIsLoading(false)
     }
